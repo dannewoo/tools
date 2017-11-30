@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery.parseXML demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ 
+<script>
+$(document).ready(function(){
+  $.ajax({
+    type: "GET",
+    url: "chris_export.xml",
+    dataType: "xml",
+    success: function(xml){
+		console.log($(xml).find("HealthData").find("Record").size());
+      $(xml).find("HealthData").each(function(){
+        var record = $(this).find("Record");
+        name = "start date,type,value,unit<br>"
+	    $(record).each(function(index, element){
+	    	if ($(this).attr('value') != undefined) {
+		        name += $(this).attr('startDate') + "," + $(this).attr('type') + "," + $(this).attr('value') + "," + $(this).attr('unit') + "<br>";
+		    }
+	        if (index < length-1) {
+		        name += ', ';
+	        }
+	    });
+        document.write(name);
+      })
+    }
+   });
+});
+</script>
+ 
+</body>
+</html>

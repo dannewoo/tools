@@ -1,0 +1,26 @@
+# Import the BeautifulSoup Library
+from bs4 import BeautifulSoup
+# Import the URL Library
+import urllib
+# Import the CSV library to export as a CSV file
+# import csv
+
+arrayURLs = ["https://en.wikipedia.org/wiki/Beslan_massacre","https://en.wikipedia.org/wiki/Garissa_University_College_attack","https://en.wikipedia.org/wiki/2014_Peshawar_school_massacre","https://en.wikipedia.org/wiki/Bath_School_disaster","https://en.wikipedia.org/wiki/Virginia_Tech_shooting","https://en.wikipedia.org/wiki/Ma%27alot_massacre","https://en.wikipedia.org/wiki/Sandy_Hook_shooting","https://en.wikipedia.org/wiki/Dunblane_school_massacre","https://en.wikipedia.org/wiki/Erfurt_massacre","https://en.wikipedia.org/wiki/University_of_Texas_massacre","https://en.wikipedia.org/wiki/Winnenden_school_shooting","https://en.wikipedia.org/wiki/Montreal_Massacre","https://en.wikipedia.org/wiki/Columbine_High_School_massacre","https://en.wikipedia.org/wiki/Azerbaijan_State_Oil_Academy_shooting","https://en.wikipedia.org/wiki/Rio_de_Janeiro_school_shooting","https://en.wikipedia.org/wiki/Shiguan_kindergarten_attack","https://en.wikipedia.org/wiki/Cologne_school_massacre","https://en.wikipedia.org/wiki/Kauhajoki_school_shooting","https://en.wikipedia.org/wiki/School_attacks_in_China_(2010%E2%80%932012)#May_2010","https://en.wikipedia.org/wiki/UCC_shooting","https://en.wikipedia.org/wiki/Red_Lake_massacre","https://en.wikipedia.org/wiki/Yan_Yanming","https://en.wikipedia.org/wiki/Osaka_school_massacre","https://en.wikipedia.org/wiki/Mercaz_HaRav_shooting","https://en.wikipedia.org/wiki/Nanping_school_stabbings","https://en.wikipedia.org/wiki/Jokela_school_shooting","https://en.wikipedia.org/wiki/Oikos_University_shooting","https://en.wikipedia.org/wiki/Anne_Anne_Kindergarten_stabbing","https://en.wikipedia.org/wiki/2014_Isla_Vista_killings","https://en.wikipedia.org/wiki/Sanaa_school_shooting","https://en.wikipedia.org/wiki/Stockton_schoolyard_shooting","https://en.wikipedia.org/wiki/Poe_Elementary_School_bombing","https://en.wikipedia.org/wiki/Northern_Illinois_University_shooting","https://en.wikipedia.org/wiki/Eppstein_school_shooting","https://en.wikipedia.org/wiki/Westside_Middle_School_massacre","https://en.wikipedia.org/wiki/West_Nickel_Mines_School_shooting","https://en.wikipedia.org/wiki/Santa_Monica_shooting","https://en.wikipedia.org/wiki/University_of_Iowa_shooting","https://en.wikipedia.org/wiki/Thurston_High_School_shooting","https://en.wikipedia.org/wiki/Bremen_school_shooting","https://en.wikipedia.org/wiki/Dendermonde_nursery_attack","https://en.wikipedia.org/wiki/Lindhurst_High_School_shooting","https://en.wikipedia.org/wiki/La_Loche_shootings","https://en.wikipedia.org/wiki/2007_Colorado_YWAM_and_New_Life_shootings","https://en.wikipedia.org/wiki/Marysville_Pilchuck_High_School_shooting","https://en.wikipedia.org/wiki/Trollh%C3%A4ttan_school_attack","https://en.wikipedia.org/wiki/Toulouse_and_Montauban_shootings","https://en.wikipedia.org/wiki/Ma_Jiajue","https://en.wikipedia.org/wiki/Wilno_school_massacre","https://en.wikipedia.org/wiki/Olean_High_School_shooting","https://en.wikipedia.org/wiki/Pearl_High_School_shooting","https://en.wikipedia.org/wiki/Heath_High_School_shooting","https://en.wikipedia.org/wiki/Appalachian_School_of_Law_shooting","https://en.wikipedia.org/wiki/Chardon_High_School_shooting","https://en.wikipedia.org/wiki/Frontier_Middle_School_shooting","https://de.wikipedia.org/wiki/Amoklauf_von_Eching_und_Freising","https://en.wikipedia.org/wiki/San_Diego_State_University_shooting","https://en.wikipedia.org/wiki/Hazard_Community_and_Technical_College#2013_shooting_incident","https://en.wikipedia.org/wiki/Centennial_Secondary_School_shooting","https://en.wikipedia.org/wiki/Charles_Andrew_Williams","https://en.wikipedia.org/wiki/Tyrone_Mitchell","https://en.wikipedia.org/wiki/Cleveland_Elementary_School_shooting_(San_Diego)","https://en.wikipedia.org/wiki/Oakland_Elementary_School_shooting","https://en.wikipedia.org/wiki/St._Pius_X_High_School_shooting","https://en.wikipedia.org/wiki/Monash_University_shooting","https://en.wikipedia.org/wiki/Wayne_Lo","https://en.wikipedia.org/wiki/Pak_Phanang_school_shooting","https://en.wikipedia.org/wiki/Raumanmeri_school_shooting"]
+
+for url in arrayURLs:
+	# print url
+	# Load in and read the URL
+	r = urllib.urlopen(url, "html.parser").read()
+	# Pass the HTML from the URL into BeautifulSoup
+	soup = BeautifulSoup(r)
+
+	# Loop through all the HTML data and pull out the important information using the specific labels and IDs
+	for link in soup.findAll('body'):
+		if link.find('h1', attrs={'id': 'firstHeading'}) and link.find('span', attrs={'class': 'latitude'}) and link.find('span', attrs={'class': 'longitude'}):
+		    station_name = link.find('h1', attrs={'id': 'firstHeading'}).get_text()
+		    station_lat = link.find('span', attrs={'class': 'latitude'}).get_text()
+		    station_lon = link.find('span', attrs={'class': 'longitude'}).get_text()
+		    print(station_name + "," + url + "," + station_lat + "," + station_lon)
+	    
+	    # Write all the data to the CSV file
+	    # csv_writer.writerow([station_lat, station_lon])
